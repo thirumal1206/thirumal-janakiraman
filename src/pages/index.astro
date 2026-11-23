@@ -4,59 +4,52 @@ import PolicyDemo from '../components/PolicyDemo.vue';
 import Flow from '../components/Flow.astro';
 import Logo from '../components/Logo.astro';
 import { getCollection } from 'astro:content';
-import { person, facts, about, domains, agentic, work, platform, experience, projects, studying, skills } from '../data/site';
+import { person, facts, mandate, domains, work, principles, experience, projects } from '../data/site';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 ---
-<Base title={`${person.name}: cloud and AI platform architect`} description="Lead Platform Engineer in Berlin. Cloud architecture, serverless and event driven systems, data, security and agentic AI, from client idea to production.">
+<Base title={`${person.name}: cloud and AI platform architect`} description="Lead Platform Engineer in Berlin. Cloud, serverless, data, security and agentic AI, from idea to production.">
   <section class="hero">
     <div class="wrap hero__grid">
       <div>
-        <div class="who">
-          <img class="who__img" src="/thirumal.jpg" alt="Portrait of Thirumal Janakiraman" width="88" height="88">
-          <div><p class="who__name">{person.name}</p><p class="label">{person.role} · {person.city}</p></div>
-        </div>
+        <p class="label">{person.role} · {person.city}</p>
         <h1>I architect the cloud that <em>AI products</em> run on</h1>
-        <p class="lead">Cloud, serverless and event driven systems, data, security and agentic AI. I take products from a client's first idea to production, and lead the platform team that keeps them there.</p>
+        <p class="lead">Cloud, data, security and agents, from first idea to production.</p>
         <div class="btns">
-          <a class="btn btn--primary" href="#work">See how I work</a>
-          <a class="btn" href="#own">What I own</a>
+          <a class="btn btn--primary" href="#work">See my work</a>
+          <a class="btn" href={`mailto:${person.email}`}>Get in touch</a>
         </div>
         <dl class="facts">
           {facts.map((f) => <div><dt>{f.label}</dt><dd>{f.value}</dd></div>)}
         </dl>
       </div>
-      <aside class="now" aria-label="What I am doing now">
-        <div class="now__head"><span class="mono"><span class="pulse" aria-hidden="true"></span>status</span><a class="mono" href="/now/">/now</a></div>
-        <a class="now__row" href="#own"><span class="label">Now</span><span>Lead Platform Engineer: cloud, data, security and agent architecture for 15+ AI products.</span></a>
-        <a class="now__row" href="#alfred"><img src="/alfred-arm.jpg" alt="The NormaCore ElRobot arm at the hackathon table" width="440" height="320"><span class="label">Latest</span><span>Alfred: a voice controlled ElRobot arm at HackLab Robotics Berlin.</span></a>
-        {posts[0] && <a class="now__row" href={`/blog/${posts[0].id}/`}><span class="label">Writing</span><span>{posts[0].data.title}</span></a>}
-      </aside>
+      <figure class="portrait">
+        <img src="/thirumal.jpg" alt="Portrait of Thirumal Janakiraman" width="800" height="800" fetchpriority="high">
+        <figcaption><strong>{person.name}</strong><span>{mandate.role} · {mandate.company}</span></figcaption>
+      </figure>
     </div>
   </section>
 
-  <section id="about">
-    <div class="wrap sec-head">
-      <p class="label">01 · About</p>
-      <div class="prose">
-        <h2 style="font-size:clamp(28px,3.4vw,40px);margin-bottom:24px">About me</h2>
-        <p class="big">{about[0]}</p>
-        {about.slice(1).map((p) => <p>{p}</p>)}
+  <section id="now">
+    <div class="wrap">
+      <div class="sec-head"><p class="label">01 · Now</p><h2>{mandate.role}, {mandate.company}</h2></div>
+      <div class="mandate">
+        <div><p class="mono muted">{mandate.since}</p><ul class="tags">{mandate.facts.map((f) => <li>{f}</li>)}</ul></div>
+        <ol class="outcomes">{mandate.outcomes.map((o) => <li>{o}</li>)}</ol>
       </div>
     </div>
   </section>
 
-  <section id="own" class="band">
+  <section id="scope" class="band">
     <div class="wrap">
-      <div class="sec-head"><p class="label">02 · Scope</p><div><h2>What I own, end to end</h2><p>Not one layer of the stack. The whole path from a client brief to a product running in production.</p></div></div>
+      <div class="sec-head"><p class="label">02 · Scope</p><h2>What I own, end to end</h2></div>
       <div class="domains">
-        {domains.map((d, i) => (
+        {domains.map((d) => (
           <div class="domain">
-            <div class="domain__top"><p class="mono muted">{String(i + 1).padStart(2, '0')}</p><span class="logos">{d.icons.map((ic) => <Logo name={ic} />)}</span></div>
+            <span class="logos">{d.icons.map((ic) => <Logo name={ic} />)}</span>
             <h3>{d.title}</h3>
             <p>{d.text}</p>
-            <ul class="chips">{d.tags.map((t) => <li>{t}</li>)}</ul>
           </div>
         ))}
       </div>
@@ -65,57 +58,43 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
 
   <section id="work">
     <div class="wrap">
-      <div class="sec-head"><p class="label">03 · Work</p><div><h2>Three problems, three decisions</h2><p>What was at stake, what I chose and what changed.</p></div></div>
+      <div class="sec-head"><p class="label">03 · Work</p><h2>Selected work</h2></div>
       {work.map((w) => (
         <article class="case" id={w.id}>
           <div>
             <p class="label">{w.tag}</p>
             <h3>{w.title}</h3>
-            {w.metric && <p class="metric"><strong>{w.metric.value}</strong><span>{w.metric.label}</span></p>}
-            {w.body.map((p) => <p>{p}</p>)}
-            {w.link && <p><a href={w.link.href}>{w.link.label} →</a></p>}
-            <ul class="chips">{w.stack.map((s) => <li>{s}</li>)}</ul>
+            <p class="metric"><strong>{w.metric.value}</strong><span>{w.metric.label}</span></p>
+            <dl class="tpl">
+              <dt>Challenge</dt><dd>{w.challenge}</dd>
+              <dt>What I did</dt><dd><ul class="ticks">{w.did.map((d) => <li>{d}</li>)}</ul></dd>
+              <dt>Outcome</dt><dd>{w.outcome}</dd>
+            </dl>
+            <ul class="tags tags--sm">{w.facts.map((f) => <li>{f}</li>)}{w.link && <li class="tags__link"><a href={w.link.href}>{w.link.label} →</a></li>}</ul>
           </div>
           <div class="case__media">
-            {w.image ? <img src={w.image.src} alt={w.image.alt} width="440" height="320" loading="lazy" /> :
-              <Flow steps={w.flow ?? []} label={w.title} />}
+            {w.image ? <img src={w.image.src} alt={w.image.alt} width="440" height="320" loading="lazy" /> : <Flow steps={w.flow ?? []} label={w.title} />}
           </div>
         </article>
       ))}
     </div>
   </section>
 
-  <section id="agents" class="band band--accent">
+  <section id="principles" class="band band--accent">
     <div class="wrap">
-      <div class="sec-head"><p class="label">04 · Agents</p><div><h2>How I build agentic systems</h2><p>Agents, MCP servers, tool orchestration and zero trust. Six rules I hold every agent product to.</p></div></div>
-      <div class="rules">
-        {agentic.map((r, i) => <div class="rule"><span class="rule__n">{String(i + 1).padStart(2, '0')}</span><h3>{r.title}</h3><p>{r.text}</p></div>)}
-      </div>
-    </div>
-  </section>
-
-  <section id="platform">
-    <div class="wrap">
-      <div class="sec-head"><p class="label">05 · Platform</p><div><h2>How I think about platforms</h2><p>A platform is a product, and engineers are its users.</p></div></div>
-      <div class="cols">
-        <div><h3>What I build</h3><ul class="ticks">{platform.build.map((p) => <li>{p}</li>)}</ul></div>
-        <div><h3>How I lead</h3><ul class="ticks">{platform.lead.map((p) => <li>{p}</li>)}</ul></div>
-      </div>
-      <div class="skills">
-        {skills.map((s) => <div><p class="label">{s.group}</p><ul class="chips">{s.items.map((i) => <li>{i}</li>)}</ul></div>)}
-      </div>
+      <div class="sec-head"><p class="label">04 · Principles</p><h2>How I decide</h2></div>
+      <ol class="principles">
+        {principles.map((r) => <li><h3>{r.title}</h3><p>{r.text}</p></li>)}
+      </ol>
     </div>
   </section>
 
   <section id="experience">
     <div class="wrap">
-      <div class="sec-head"><p class="label">06 · Experience</p><div><h2>Shipping software since 2016</h2><p>From enterprise software in India to research and AI in Germany.</p></div></div>
-      <ol class="roles">
+      <div class="sec-head"><p class="label">05 · Experience</p><h2>Since 2016</h2></div>
+      <ol class="timeline">
         {experience.map((r) => (
-          <li class="role">
-            <div><p class="mono" style="margin:0">{r.dates}</p><p class="muted" style="margin:0">{r.place}</p></div>
-            <div><h3>{r.role}<span>, {r.company}</span></h3><ul class="ticks">{r.points.map((p) => <li>{p}</li>)}</ul></div>
-          </li>
+          <li><span class="mono muted">{r.dates}</span><div><h3>{r.company}</h3><p>{r.role}</p></div><span class="muted">{r.place}</span></li>
         ))}
       </ol>
     </div>
@@ -123,18 +102,19 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
 
   <section id="open-source">
     <div class="wrap">
-      <div class="sec-head"><p class="label">07 · Open source</p><div><h2>Tools I build and code I read</h2><p>Small tools for agents in production. Try toolwall's policy check below.</p></div></div>
-      <PolicyDemo client:visible />
-      <div class="cards" style="margin-top:24px">
-        {projects.map((p) => <a class="card" href={p.href}><h3>{p.name} ↗</h3><p>{p.text}</p></a>)}
+      <div class="sec-head"><p class="label">06 · Open source</p><h2>Tools I build</h2></div>
+      <div class="oss">
+        <PolicyDemo client:visible />
+        <div class="cards">
+          {projects.map((p) => <a class="card" href={p.href}><h3>{p.name} ↗</h3><p>{p.text}</p></a>)}
+        </div>
       </div>
-      <p class="muted" style="margin-top:32px;max-width:70ch">Projects I have studied lately: {studying.join(', ')}, plus several agent frameworks. Reading how a mature project handles plugins, migrations or tests teaches me more than most tutorials.</p>
     </div>
   </section>
 
   <section id="writing">
     <div class="wrap">
-      <div class="sec-head"><p class="label">08 · Writing</p><div><h2>Latest posts</h2><p>Notes on platforms, agents and the things I learn along the way.</p></div></div>
+      <div class="sec-head"><p class="label">07 · Writing</p><h2>Latest posts</h2></div>
       <ul class="posts">
         {posts.map((p) => <li><a href={`/blog/${p.id}/`}><span class="mono muted">{fmt(p.data.date)}</span><div><h3>{p.data.title}</h3><p>{p.data.description}</p></div></a></li>)}
       </ul>
@@ -142,9 +122,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
   </section>
 
   <div class="wrap foot" id="contact">
-    <p class="label">09 · Contact</p>
-    <h2>Have a hard cloud or AI problem? Let's talk.</h2>
-    <p class="muted" style="margin-top:16px;max-width:56ch">Architecture, platforms, agents, data or a launch that has to go right. I reply within a few days.</p>
-    <div class="btns"><a class="btn btn--primary" href={`mailto:${person.email}`}>Write to me</a><a class="btn" href={person.github}>GitHub</a><a class="btn" href={person.linkedin}>LinkedIn</a></div>
+    <h2>Have a hard cloud or AI problem?</h2>
+    <div class="btns"><a class="btn btn--primary" href={`mailto:${person.email}`}>Write to me</a><a class="btn" href={person.linkedin}>LinkedIn</a><a class="btn" href={person.github}>GitHub</a></div>
   </div>
 </Base>
