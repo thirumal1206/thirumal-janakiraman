@@ -25,6 +25,7 @@ test('home lists every blog post and links resolve', async ({ page, request }) =
 
 test('toolwall demo changes its verdict', async ({ page }) => {
   await page.goto('/#open-source');
+  await page.locator('astro-island:not([ssr])').first().waitFor();
   await page.getByRole('radio', { name: /delete_user/ }).click();
   await expect(page.locator('.verdict')).toHaveText('DENY');
   await page.getByRole('radio', { name: /read_invoice/ }).click();

@@ -217,7 +217,8 @@ section { padding: 96px 0; border-bottom: 1px solid var(--line); }
 .band--accent { background: radial-gradient(900px 500px at 90% 0%, var(--band-glow), transparent 70%), radial-gradient(700px 400px at 0% 100%, color-mix(in srgb, var(--teal) 18%, transparent), transparent 70%), var(--band-bg); }
 .domain__top { display: flex; justify-content: space-between; align-items: center; }
 .logos { display: flex; gap: 6px; }
-.logos img { width: 22px; height: 22px; padding: 3px; background: #fff; border-radius: 6px; box-sizing: content-box; object-fit: contain; }
+.logos .logo { display: grid; place-items: center; width: 28px; height: 28px; background: #fff; border-radius: 6px; }
+.logos .logo svg { width: 20px; height: 20px; }
 
 .metric { display: grid; gap: 2px; margin: 0 0 22px; padding: 14px 0 14px 20px; border-left: 3px solid var(--accent); }
 .metric strong { font-size: clamp(34px, 3.8vw, 52px); letter-spacing: -0.035em; line-height: 1.05; background: linear-gradient(90deg, var(--accent), var(--teal)); -webkit-background-clip: text; background-clip: text; color: transparent; }

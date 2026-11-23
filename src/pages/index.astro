@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PolicyDemo from '../components/PolicyDemo.vue';
 import Flow from '../components/Flow.astro';
+import Logo from '../components/Logo.astro';
 import { getCollection } from 'astro:content';
 import { person, facts, about, domains, agentic, work, platform, experience, projects, studying, skills } from '../data/site';
 
@@ -52,7 +53,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
       <div class="domains">
         {domains.map((d, i) => (
           <div class="domain">
-            <div class="domain__top"><p class="mono muted">{String(i + 1).padStart(2, '0')}</p><span class="logos">{d.icons.map((ic) => <img src={`/icons/${ic}.svg`} alt="" width="22" height="22" loading="lazy" />)}</span></div>
+            <div class="domain__top"><p class="mono muted">{String(i + 1).padStart(2, '0')}</p><span class="logos">{d.icons.map((ic) => <Logo name={ic} />)}</span></div>
             <h3>{d.title}</h3>
             <p>{d.text}</p>
             <ul class="chips">{d.tags.map((t) => <li>{t}</li>)}</ul>

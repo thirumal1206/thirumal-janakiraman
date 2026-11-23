@@ -1,0 +1,6 @@
+---
+const files = import.meta.glob<string>('../icons/*.svg', { query: '?raw', import: 'default', eager: true });
+interface Props { name: string }
+const svg = files[`../icons/${Astro.props.name}.svg`] ?? '';
+---
+<span class="logo" aria-hidden="true" set:html={svg} />
