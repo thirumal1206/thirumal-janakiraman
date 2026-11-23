@@ -1,0 +1,12 @@
+---
+interface Props { steps: string[]; label: string }
+const { steps, label } = Astro.props;
+---
+<div class="pipe" role="img" aria-label={`${label}: ${steps.join(', then ')}`}>
+  {steps.map((s, i) => (
+    <>
+      <div class="pipe__node" style={`--i:${i}`}><span class="pipe__n">{String(i + 1).padStart(2, '0')}</span>{s}</div>
+      {i < steps.length - 1 && <div class="pipe__link" style={`--i:${i}`}><i></i></div>}
+    </>
+  ))}
+</div>

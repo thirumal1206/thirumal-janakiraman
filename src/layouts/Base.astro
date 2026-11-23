@@ -1,0 +1,70 @@
+---
+import '../styles/global.css';
+import { person } from '../data/site';
+
+interface Props { title: string; description: string; path?: string }
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const here = Astro.url.pathname;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <link rel="canonical" href={canonical}>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="/rss.xml">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={canonical}>
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0e1117" media="(prefers-color-scheme: dark)">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script is:inline>
+    try {
+      const t = localStorage.getItem('theme') ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.dataset.theme = t;
+    } catch { document.documentElement.dataset.theme = 'light'; }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <div class="wrap top__bar">
+      <a class="top__name" href="/"><span class="top__dot" aria-hidden="true"></span>Thirumal<span class="top__last">&nbsp;Janakiraman</span></a>
+      <nav aria-label="Main">
+        <a class="hide-sm" href="/#work">Work</a>
+        <a class="hide-sm" href="/#experience">Experience</a>
+        <a href="/blog/" aria-current={here.startsWith('/blog') ? 'page' : undefined}>Blog</a>
+        <a href="/now/" aria-current={here.startsWith('/now') ? 'page' : undefined}>Now</a>
+      </nav>
+      <button class="theme" type="button" aria-label="Switch colour theme" data-theme-toggle>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+      </button>
+    </div>
+  </header>
+  <main id="main">
+    <slot />
+  </main>
+  <footer class="wrap foot__links">
+    <span>© 2026 {person.name}</span>
+    <a href={person.github}>GitHub</a>
+    <a href={person.linkedin}>LinkedIn</a>
+    <a href="/rss.xml">RSS</a>
+    <a href="https://github.com/thirumal1206/thirumal1206.github.io">Source of this site</a>
+  </footer>
+  <script>
+    document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem('theme', next); } catch {}
+    });
+  </script>
+</body>
+</html>

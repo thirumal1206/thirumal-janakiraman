@@ -1,0 +1,30 @@
+---
+title: How this site is built
+date: 2026-11-23
+description: Astro, Markdown, a real CI pipeline and GitHub Pages. No server and no bill.
+---
+import PolicyDemo from '../../components/PolicyDemo.vue';
+
+This site is an [Astro](https://astro.build) project. Pages are static HTML, posts are Markdown or MDX files, and the few interactive parts are small Vue components that load only where they are used. GitHub Pages hosts it for free.
+
+## Why Astro
+
+I wanted the writing to come first and the page to be fast. Astro ships no JavaScript unless a component asks for it, so a post is plain HTML. MDX lets a post embed a live component, like this policy check from my toolwall project:
+
+<PolicyDemo client:visible />
+
+## The pipeline is part of the portfolio
+
+Every push runs the same checks I would ask of any team:
+
+- `astro check` for types in pages, components and content
+- a production build
+- Playwright end to end tests at desktop and phone width, including an axe accessibility scan and a check that nothing scrolls sideways
+- Lighthouse with minimum scores for performance, accessibility, best practices and SEO
+- a deploy to GitHub Pages, only from `main` and only when everything above passed
+
+The workflow file is in the repository, so you can read exactly what runs.
+
+## Adding a post
+
+A new post is one file in `src/content/blog`. The frontmatter has a title, a date and a one line description; the schema rejects a post that misses one.

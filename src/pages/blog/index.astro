@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+---
+<Base title="Blog: Thirumal Janakiraman" description="Posts on platform engineering, agentic architecture, testing AI systems and hackathons.">
+  <div class="wrap" style="padding-top:72px;padding-bottom:96px">
+    <p class="label">Blog</p>
+    <h1 style="font-size:clamp(36px,5vw,56px);margin:12px 0 48px">Notes on platforms and agents</h1>
+    <ul class="posts">
+      {posts.map((p) => <li><a href={`/blog/${p.id}/`}><span class="mono muted">{fmt(p.data.date)}</span><div><h2 style="font-size:20px">{p.data.title}</h2><p>{p.data.description}</p></div></a></li>)}
+    </ul>
+  </div>
+</Base>
