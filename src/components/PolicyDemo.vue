@@ -14,7 +14,7 @@ const current = computed(() => calls[picked.value]);
 
 <template>
   <div class="demo">
-    <div class="demo__head mono"><span>toolwall</span><span class="muted">policy.yaml · agent: support-bot</span></div>
+    <div class="demo__head mono"><span>toolmarshal</span><span class="muted">policy.yaml · agent: support-bot</span></div>
     <div class="demo__body">
       <div class="demo__calls" role="radiogroup" aria-label="Pick a tool call to check">
         <button v-for="(c, i) in calls" :key="c.tool" type="button" role="radio" :aria-checked="picked === i" :class="{ on: picked === i }" @click="picked = i">
@@ -23,7 +23,7 @@ const current = computed(() => calls[picked.value]);
         </button>
       </div>
       <div class="demo__out" aria-live="polite">
-        <p class="mono muted small">$ toolwall check {{ current.tool }}</p>
+        <p class="mono muted small">$ toolmarshal check {{ current.tool }}</p>
         <p class="verdict" :class="current.decision">{{ current.decision.toUpperCase() }}</p>
         <p>{{ current.why }}</p>
       </div>

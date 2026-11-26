@@ -7,6 +7,17 @@ import { getCollection } from 'astro:content';
 import { person, facts, mandate, domains, work, principles, experience, projects } from '../data/site';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+// GitHub data at build time; a scheduled CI run keeps it fresh. Local text is the fallback.
+const live = await Promise.all(projects.map(async (p) => {
+  try {
+    const r = await fetch(p.href.replace('https://github.com/', 'https://api.github.com/repos/'), {
+      headers: process.env.GITHUB_TOKEN ? { authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {},
+    });
+    if (!r.ok) return p;
+    const g = await r.json();
+    return { ...p, name: g.name, href: g.html_url, text: g.description || p.text, updated: new Date(g.pushed_at) };
+  } catch { return p; }
+}));
 const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 ---
 <Base title={`${person.name}: cloud and AI platform architect`} description="Lead Platform Engineer in Berlin. Cloud, serverless, data, security and agentic AI, from idea to production.">
@@ -106,7 +117,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
       <div class="oss">
         <PolicyDemo client:visible />
         <div class="cards">
-          {projects.map((p) => <a class="card" href={p.href}><h3>{p.name} ↗</h3><p>{p.text}</p></a>)}
+          {live.map((p) => <a class="card" href={p.href}><h3>{p.name} ↗</h3><p>{p.text}</p>{'updated' in p && <p class="mono muted">Updated {fmt(p.updated)}</p>}</a>)}
         </div>
       </div>
     </div>

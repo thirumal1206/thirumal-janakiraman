@@ -37,7 +37,7 @@ flowchart LR
 | Framework | Astro 7 | Pages render to HTML at build time and ship no JavaScript unless a component asks for it. |
 | Content | Markdown and MDX in a typed content collection | A post is one file. The schema rejects a post without a title, date or description. |
 | Profile data | `src/data/site.ts` | Copy lives apart from layout, so editing a line never touches markup. |
-| Interactive part | One Vue component (the toolwall demo), hydrated only when it scrolls into view | Shows a real interaction without making the page heavy. |
+| Interactive part | One Vue component (the toolmarshal demo), hydrated only when it scrolls into view | Shows a real interaction without making the page heavy. |
 | Styling | One CSS file with light and dark tokens | No CSS framework; the theme is a set of variables. |
 | Feeds | RSS and sitemap generated at build | Readers and search engines pick up new posts automatically. |
 

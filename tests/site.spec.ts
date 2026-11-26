@@ -23,7 +23,7 @@ test('home lists every blog post and links resolve', async ({ page, request }) =
   for (const href of links) expect((await request.get(href)).status()).toBe(200);
 });
 
-test('toolwall demo changes its verdict', async ({ page }) => {
+test('toolmarshal demo changes its verdict', async ({ page }) => {
   await page.goto('/#open-source');
   await page.locator('astro-island:not([ssr])').first().waitFor();
   await page.getByRole('radio', { name: /delete_user/ }).click();

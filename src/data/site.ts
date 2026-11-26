@@ -113,7 +113,7 @@ export const experience = [
 ];
 
 export const projects = [
-  { name: 'toolwall', href: 'https://github.com/thirumal1206/toolwall', text: 'Policy firewall for agent tool calls.' },
+  { name: 'toolmarshal', href: 'https://github.com/thirumal1206/toolmarshal', text: 'Policy firewall for agent tool calls.' },
   { name: 'agent-replay', href: 'https://github.com/thirumal1206/agent-replay', text: 'Regression tests for agent behaviour.' },
   { name: 'backstage-agents', href: 'https://github.com/thirumal1206/backstage-agents', text: 'A catalogue for AI agents.' },
   { name: 'hacklab-2026-normacore', href: 'https://github.com/thirumal1206/hacklab-2026-normacore', text: 'Alfred: voice, vision and Claude on a robot arm.' },

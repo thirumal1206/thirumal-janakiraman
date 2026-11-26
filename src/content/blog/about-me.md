@@ -19,7 +19,7 @@ Since late 2024 I have been on a young AI team, where I joined as one of the fir
 
 I like the parts of engineering that nobody notices when they work. A pipeline that stops a broken release. A platform where a new service starts with tests, monitoring and security already in place. An architecture decision written down well enough that someone can disagree with it a year later.
 
-Agents make all of this more interesting. When software can choose which tool to call, questions like "who is allowed to do this" and "did the behaviour change" stop being theory. A lot of my recent open source work, such as toolwall and agent-replay, comes from exactly those two questions.
+Agents make all of this more interesting. When software can choose which tool to call, questions like "who is allowed to do this" and "did the behaviour change" stop being theory. A lot of my recent open source work, such as toolmarshal and agent-replay, comes from exactly those two questions.
 
 ## How I learn
 
